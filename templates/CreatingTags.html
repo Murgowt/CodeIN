@@ -1,0 +1,17 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Create Tag</title>
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    </head>
+    <body>
+        <form id="create-tag-form">
+            <input type="text" placeholder="Tag Name" name="Tag">
+            <button type="submit">Create Tag</button>
+        
+        </form>
+        <p id="Result"></p>
+        <script src="{% static 'jscontrollers/create-tag-controller.js' %}"></script>
+    </body>
+</html>
