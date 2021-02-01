@@ -3,6 +3,7 @@ from django.http import HttpResponse,JsonResponse
 from django.views.decorators.csrf import csrf_exempt
 from .models import Tags,Questions
 import json
+from django.core import serializers
 # Create your views here.
 @csrf_exempt
 def CreateTag(request):
@@ -39,8 +40,8 @@ def CreateTag(request):
             return(JsonResponse(messageData,status=200))
 
 
-    else:
-        #Render UI
+    if(request.method=="GET"):
+        return(render(request,"CreatingTags.html"))
         pass
 
 @csrf_exempt
@@ -83,4 +84,26 @@ def CreateQuestions(request):
 
 
 def Problems(request):
-    
+    if(request.method=="GET"):
+        questions=Questions.objects.all()
+        questions=serializers.serialize('json',questions)
+        messageData={
+                    "responseType":"success",
+                    "messageType":"success",
+                    "message":"Question Fetched Succesfully",
+                    "responseData":questions
+                }
+        return(JsonResponse(messageData,status=200))
+
+def TagProblems(request,TAG):
+    if(request.method=="GET"):
+        TAG=TAG.replace("-"," ")
+        questions=Questions.objects.filter(Tags__Name=TAG)
+        questions=serializers.serialize('json',questions)
+        messageData={
+                    "responseType":"success",
+                    "messageType":"success",
+                    "message":"Question Fetched Succesfully",
+                    "responseData":questions
+                }
+        return(JsonResponse(messageData,status=200))
